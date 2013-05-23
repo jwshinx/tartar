@@ -23,6 +23,10 @@ describe "services" do
    attributes = JSON.parse(last_response.body)
    attributes["customer"]["name"].should == 'Bob Dylan'
   end
+  it "returns 404 when customer doesn't exist" do
+   get "/customers/98884"
+   last_response.status.should == 404
+  end
  end
 end
 

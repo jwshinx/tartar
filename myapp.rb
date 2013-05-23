@@ -12,7 +12,7 @@ get '/' do
  'Hello Oakland!!!!'
 end
 get '/customers/:id' do
- cust = Customer.find params[:id]
+ cust = Customer.find_by_id params[:id]
  if cust
   cust.to_json
  else
