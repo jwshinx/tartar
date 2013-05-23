@@ -2,7 +2,7 @@
 $LOAD_PATH << File.expand_path('../lib', __FILE__)
 require 'dog'
 require 'customer'
-require File.join(File.dirname(__FILE__), '..', 'myapp.rb')
+require File.join(File.dirname(__FILE__), '..', 'services.rb')
 require 'sinatra'
 require 'rack/test'
 
