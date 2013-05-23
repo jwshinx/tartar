@@ -14,15 +14,19 @@ require 'spec_helper'
 # Sinatra::Application
 #end
 
-describe "service" do
- describe "GET on /api/v1/customers/:id" do
-  it "xxx" do
-   c = Customer.create( { name: 'Brad Pitt' } )
-   c.to_s.should == "Name: Brad Pitt"
-   c.name.should == "Brad Pitt"
-   c.should be_true
+describe "services" do
+ describe "GET on /customers/:id" do
+  before { @c = Customer.create( name: 'Bob Dylan' ) }
+  it "returns customer by :id" do
+   get "/customers/#{@c.id}"
+   last_response.should be_ok 
+   attributes = JSON.parse(last_response.body)
+   attributes["customer"]["name"].should == 'Bob Dylan'
   end
  end
+end
+
+describe "at root" do
  describe "GET on /" do
   it "should return *Hello Oakland*" do
    get '/'
