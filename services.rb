@@ -1,12 +1,23 @@
 require 'sinatra'
 require 'active_record'
-#require 'models/customer'
 
 env_index = ARGV.index("-e")
 env_arg = ARGV[env_index + 1] if env_index
 env = env_arg || ENV["SINATRA_ENV"] || "development"
 databases = YAML.load_file("config/database.yml")
 ActiveRecord::Base.establish_connection(databases[env])
+
+$LOAD_PATH << File.expand_path('../lib', __FILE__)
+require 'customer'
+
+if env == 'test'
+ puts "starting in test mode"
+ Customer.destroy_all
+ puts "customers: all destroyed"
+ Customer.create( name: 'Barack' )
+ puts "initializing: barack"
+ puts "customer: #{Customer.all.inspect}"
+end
 
 get '/' do
  'Hello Oakland!!!!'
