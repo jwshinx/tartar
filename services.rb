@@ -12,6 +12,15 @@ get '/' do
  'Hello Oakland!!!!'
 end
 
+get '/customers' do
+ customers = Customer.all
+ if customers.empty?
+  error 404, { :error => 'customers not found' }.to_json
+ else
+  customers.to_json
+ end
+end
+
 get '/customers/:id' do
  cust = Customer.find_by_id params[:id]
  if cust

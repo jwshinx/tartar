@@ -15,6 +15,7 @@ require 'spec_helper'
 #end
 
 describe "services" do
+ before { Customer.delete_all }
  
  describe "PUT on /customers/:id" do
   it "should update a customer" do
@@ -34,7 +35,8 @@ describe "services" do
    last_response.should be_ok
    get "/customers/#{@c.id}"
    last_response.status.should == 404 
-   last_response.body =~ /customer not found/
+   attributes = JSON.parse(last_response.body)
+   attributes['error'].should == 'customer not found'
   end
  end
 
@@ -47,6 +49,23 @@ describe "services" do
    get "/customers/#{Customer.find_by_name('Mark Twain').id}"
    attributes = JSON.parse(last_response.body)
    attributes["customer"]["name"].should == 'Mark Twain'
+  end
+ end
+
+ describe "GET on /customers" do
+  before do 
+   Customer.create( name: 'Curly' ) 
+   Customer.create( name: 'Mo' ) 
+   Customer.create( name: 'Larry' ) 
+  end
+  it "returns all customers" do
+   get "/customers"
+   last_response.should be_ok 
+   attributes = JSON.parse(last_response.body)
+   attributes.collect { |x| x['customer']['name'] }.include?( 'Mo' ).should be_true
+   attributes.collect { |x| x['customer']['name'] }.include?( 'Larry' ).should be_true
+   attributes.collect { |x| x['customer']['name'] }.include?( 'Curly' ).should be_true
+   attributes.collect { |x| x['customer']['name'] }.include?( 'Dave' ).should_not be_true
   end
  end
 
