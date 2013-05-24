@@ -13,7 +13,6 @@ class Customer
 
  def self.find_by_id( id )
   response = Typhoeus::Request.get( "#{base_uri}/customers/#{id}" )
-  #puts "---> client: body: #{JSON.parse( response.body )}"
   if response.code == 200
    JSON.parse( response.body )
   elsif response.code == 404
@@ -30,7 +29,15 @@ class Customer
   else
    raise response.body
   end
-  
+ end
+
+ def self.update(id, attributes )
+  response = Typhoeus::Request.put( "#{base_uri}/customers/#{id}", :body => attributes.to_json )
+  if response.code == 200
+   JSON.parse( response.body )
+  else
+   raise response.body
+  end
  end
 
 end
