@@ -13,4 +13,11 @@ describe "client" do
  it "should return nil for a customer not found" do
   Customer.find_by_id( 332 ).should be_nil 
  end
+
+ it "should create a customer" do
+  customer = Customer.create( { name: 'John Lennon' })
+  customer['customer']['name'].should == 'John Lennon'
+  Customer.find_by_id( customer['customer']['id'] ).should == customer
+ end
+
 end
