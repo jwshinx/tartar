@@ -40,4 +40,8 @@ class Customer
   end
  end
 
+ def self.destroy(id)
+  Typhoeus::Request.delete( "#{base_uri}/customers/#{id}").code == 200 
+ end
+
 end

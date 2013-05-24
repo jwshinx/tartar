@@ -27,4 +27,13 @@ describe "client" do
   customer = Customer.update(26, { name: 'Barack' })
  end
 
+ it "should destroy a customer" do
+  customer = Customer.create( { name: 'Jimi Hendrix' })
+  #puts "---> 1. #{customer.inspect}"
+  id = customer['customer']['id']
+  #puts "---> 2. #{id}"
+  #customer = Customer.find_by_id( id )
+  Customer.destroy(id).should == true
+  Customer.find_by_id( id ).should be_nil
+ end
 end
