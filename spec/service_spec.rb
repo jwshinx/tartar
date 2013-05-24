@@ -23,8 +23,8 @@ describe "services" do
    put "/customers/#{@c.id}", { name: 'Robert Dylan' }.to_json
    last_response.should be_ok
    get "/customers/#{Customer.find_by_name('Robert Dylan').id}"
-   attributes = JSON.parse(last_response.body)
-   attributes["customer"]["name"].should == 'Robert Dylan'
+   attributes = JSON.parse(last_response.body)['customer']
+   attributes["name"].should == 'Robert Dylan'
   end
  end
   
@@ -47,8 +47,8 @@ describe "services" do
    }.to_json
    last_response.should be_ok
    get "/customers/#{Customer.find_by_name('Mark Twain').id}"
-   attributes = JSON.parse(last_response.body)
-   attributes["customer"]["name"].should == 'Mark Twain'
+   attributes = JSON.parse(last_response.body)['customer']
+   attributes["name"].should == 'Mark Twain'
   end
  end
 
@@ -74,8 +74,8 @@ describe "services" do
   it "returns customer by :id" do
    get "/customers/#{@c.id}"
    last_response.should be_ok 
-   attributes = JSON.parse(last_response.body)
-   attributes["customer"]["name"].should == 'Bob Dylan'
+   attributes = JSON.parse(last_response.body)['customer']
+   attributes["name"].should == 'Bob Dylan'
   end
   it "returns 404 when customer doesn't exist" do
    get "/customers/98884"
