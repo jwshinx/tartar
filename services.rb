@@ -32,6 +32,15 @@ get '/customers' do
  end
 end
 
+get '/customers/first' do
+ cust = Customer.first
+ if cust
+  cust.to_json
+ else
+  error 404, { error: 'customer nonexistent' }.to_json
+ end
+end
+
 get '/customers/:id' do
  cust = Customer.find_by_id params[:id]
  if cust

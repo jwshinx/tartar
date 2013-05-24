@@ -11,6 +11,17 @@ class Customer
   'hi'
  end
 
+ def self.first
+  response = Typhoeus::Request.get( "#{base_uri}/customers/first" )
+  if response.code == 200
+   JSON.parse( response.body )
+  elsif response.code == 404
+   nil
+  else
+   raise response.body
+  end
+ end
+
  def self.find_by_id( id )
   response = Typhoeus::Request.get( "#{base_uri}/customers/#{id}" )
   if response.code == 200

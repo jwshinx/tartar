@@ -6,7 +6,7 @@ describe "client" do
  before(:each) { Customer.base_uri = "http://localhost:3000" }
  
  it "should get a customer" do
-  cust = Customer.find_by_id( 26 )
+  cust = Customer.first
   cust['customer']['name'].should == 'Barack'
  end
 
@@ -21,10 +21,11 @@ describe "client" do
  end
 
  it "should update a customer" do
-  customer = Customer.update(26, { name: 'Bbarrack' })
+  first_id = Customer.first['customer']['id']
+  customer = Customer.update(first_id, { name: 'Bbarrack' })
   customer['customer']['name'].should == 'Bbarrack'
   Customer.find_by_id( customer['customer']['id'] ).should == customer
-  customer = Customer.update(26, { name: 'Barack' })
+  customer = Customer.update(first_id, { name: 'Barack' })
  end
 
  it "should destroy a customer" do
