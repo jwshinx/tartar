@@ -15,6 +15,41 @@ require 'spec_helper'
 #end
 
 describe "services" do
+ 
+ describe "PUT on /customers/:id" do
+  it "should update a customer" do
+   @c = Customer.create( name: 'Bob Dylan' ) 
+   put "/customers/#{@c.id}", { name: 'Robert Dylan' }.to_json
+   last_response.should be_ok
+   get "/customers/#{Customer.find_by_name('Robert Dylan').id}"
+   attributes = JSON.parse(last_response.body)
+   attributes["customer"]["name"].should == 'Robert Dylan'
+  end
+ end
+  
+ describe "DELETE on /customers/:id" do
+  it "should delete a customer" do
+   @c = Customer.create( name: 'Pee Wee' ) 
+   delete "/customers/#{@c.id}"
+   last_response.should be_ok
+   get "/customers/#{@c.id}"
+   last_response.status.should == 404 
+   last_response.body =~ /customer not found/
+  end
+ end
+
+ describe "POST on /customers" do
+  it "should create a new customer" do
+   post '/customers', {
+    name: 'Mark Twain'
+   }.to_json
+   last_response.should be_ok
+   get "/customers/#{Customer.find_by_name('Mark Twain').id}"
+   attributes = JSON.parse(last_response.body)
+   attributes["customer"]["name"].should == 'Mark Twain'
+  end
+ end
+
  describe "GET on /customers/:id" do
   before { @c = Customer.create( name: 'Bob Dylan' ) }
   it "returns customer by :id" do
