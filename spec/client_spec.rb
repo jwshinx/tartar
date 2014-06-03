@@ -6,6 +6,8 @@ describe "client" do
  before(:each) { Customer.base_uri = "http://localhost:3000" }
  
  it "should get a customer" do
+  puts "---> xxx: #{File.dirname(__FILE__).to_s}"
+  puts "---> yyy: #{__FILE__.to_s}"
   cust = Customer.first
   cust['customer']['name'].should == 'Barack'
  end

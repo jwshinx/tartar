@@ -19,6 +19,9 @@ describe "services" do
  
  describe "PUT on /customers/:id" do
   it "should update a customer" do
+    puts "---> s spec 1: #{File.dirname(__FILE__).to_s}"
+    puts "---> s spec 2: #{$LOAD_PATH[0].to_s}"
+    puts "---> s spec 3: #{:environment}"
    @c = Customer.create( name: 'Bob Dylan' ) 
    put "/customers/#{@c.id}", { name: 'Robert Dylan' }.to_json
    last_response.should be_ok

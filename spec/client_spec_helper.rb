@@ -6,6 +6,7 @@ set :run, false
 set :raise_errors, true
 set :logging, false
 
+puts "---> setting env: #{settings.to_s}"
 def app
   Sinatra::Application
 end

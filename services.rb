@@ -17,6 +17,8 @@ if env == 'test'
  Customer.create( name: 'Barack' )
  puts "initializing: barack"
  puts "customer: #{Customer.all.inspect}"
+elsif env == 'development'
+ puts "starting in development mode"
 end
 
 get '/' do
